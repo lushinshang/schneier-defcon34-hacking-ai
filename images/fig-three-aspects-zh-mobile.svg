@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960" role="img" font-family="PingFang TC, Noto Sans TC, Microsoft JhengHei, sans-serif">
+<title>AI 駭客行為的三個面向</title>
+<desc>依講者說法整理的示意：三個面向依序是人類駭進 AI 系統、人類用 AI 去駭其他系統、AI 自己去駭系統（有時甚至不是出於惡意）。後兩個面向框在一起，標示這場主要談後兩者；第三種最奇怪，也可能最會造成動盪。講者換個說法的兩種，有人指使 AI 去駭對應第二個面向，AI 無意間駭了一個系統對應第三個面向。不是影片畫面。</desc>
+<rect width="540" height="960" fill="#fbfaf7"/>
+<text x="30" y="74" font-size="32" fill="#1d2433" font-weight="bold" text-anchor="start">AI 駭客行為的三個面向</text>
+<rect x="30" y="104" width="480" height="86" rx="12" fill="#eeeae3" stroke="#d8cfbf" stroke-width="2"/>
+<text x="54" y="157" font-size="28" fill="#5b6170" font-weight="bold" text-anchor="start">人類駭進 AI 系統</text>
+<text x="510" y="258" font-size="26" fill="#b8541f" font-weight="bold" text-anchor="end">這場主要談後兩者</text>
+<rect x="16" y="276" width="508" height="556" rx="16" fill="none" stroke="#b8541f" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="36" y="322" font-size="24" fill="#5b6170" text-anchor="start">換個說法的兩種</text>
+<rect x="32" y="344" width="476" height="148" rx="12" fill="#fbeadf" stroke="#b8541f" stroke-width="2"/>
+<text x="54" y="392" font-size="28" fill="#1d2433" font-weight="bold" text-anchor="start">人類用 AI 去駭其他系統</text>
+<rect x="54" y="416" width="320" height="52" rx="26" fill="#fff6ef" stroke="#b8541f" stroke-width="2"/>
+<text x="214" y="451" font-size="24" fill="#b8541f" font-weight="bold" text-anchor="middle">有人指使 AI 去駭</text>
+<rect x="32" y="520" width="476" height="284" rx="12" fill="#fbeadf" stroke="#b8541f" stroke-width="2"/>
+<text x="54" y="568" font-size="28" fill="#1d2433" font-weight="bold" text-anchor="start">AI 自己去駭系統</text>
+<text x="54" y="614" font-size="24" fill="#5b6170" text-anchor="start">有時甚至不是出於惡意</text>
+<text x="54" y="666" font-size="24" fill="#b8541f" font-weight="bold" text-anchor="start">第三種最奇怪，也可能最會造成動盪</text>
+<rect x="54" y="716" width="320" height="52" rx="26" fill="#fff6ef" stroke="#b8541f" stroke-width="2"/>
+<text x="214" y="751" font-size="24" fill="#b8541f" font-weight="bold" text-anchor="middle">AI 無意間駭了一個系統</text>
+<text x="510" y="920" font-size="24" fill="#5b6170" text-anchor="end">依講者說法整理</text>
+</svg>

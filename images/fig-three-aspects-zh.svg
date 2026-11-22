@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" font-family="PingFang TC, Noto Sans TC, Microsoft JhengHei, sans-serif">
+<title>AI 駭客行為的三個面向</title>
+<desc>依講者說法整理的示意：三個面向依序是人類駭進 AI 系統、人類用 AI 去駭其他系統、AI 自己去駭系統（有時甚至不是出於惡意）。後兩個面向框在一起，標示這場主要談後兩者；第三種最奇怪，也可能最會造成動盪。講者換個說法的兩種，有人指使 AI 去駭對應第二個面向，AI 無意間駭了一個系統對應第三個面向。不是影片畫面。</desc>
+<rect width="960" height="540" fill="#fbfaf7"/>
+<text x="40" y="56" font-size="28" fill="#1d2433" font-weight="bold" text-anchor="start">AI 駭客行為的三個面向</text>
+<rect x="40" y="72" width="500" height="76" rx="12" fill="#eeeae3" stroke="#d8cfbf" stroke-width="2"/>
+<text x="64" y="120" font-size="26" fill="#5b6170" font-weight="bold" text-anchor="start">人類駭進 AI 系統</text>
+<text x="916" y="150" font-size="22" fill="#b8541f" font-weight="bold" text-anchor="end">這場主要談後兩者</text>
+<rect x="28" y="166" width="904" height="308" rx="16" fill="none" stroke="#b8541f" stroke-width="2.5" stroke-dasharray="8 6"/>
+<rect x="44" y="186" width="500" height="92" rx="12" fill="#fbeadf" stroke="#b8541f" stroke-width="2"/>
+<text x="64" y="245" font-size="26" fill="#1d2433" font-weight="bold" text-anchor="start">人類用 AI 去駭其他系統</text>
+<rect x="44" y="296" width="500" height="164" rx="12" fill="#fbeadf" stroke="#b8541f" stroke-width="2"/>
+<text x="64" y="338" font-size="26" fill="#1d2433" font-weight="bold" text-anchor="start">AI 自己去駭系統</text>
+<text x="64" y="380" font-size="22" fill="#5b6170" text-anchor="start">有時甚至不是出於惡意</text>
+<text x="64" y="430" font-size="22" fill="#b8541f" font-weight="bold" text-anchor="start">第三種最奇怪，也可能最會造成動盪</text>
+<text x="600" y="200" font-size="22" fill="#5b6170" text-anchor="start">換個說法的兩種</text>
+<rect x="600" y="212" width="316" height="52" rx="26" fill="#fff6ef" stroke="#b8541f" stroke-width="2"/>
+<text x="758" y="247" font-size="24" fill="#b8541f" font-weight="bold" text-anchor="middle">有人指使 AI 去駭</text>
+<line x1="548" y1="238" x2="586" y2="238" stroke="#b8541f" stroke-width="3"/>
+<path d="M584 230 L596 238 L584 246 Z" fill="#b8541f"/>
+<rect x="600" y="300" width="316" height="52" rx="26" fill="#fff6ef" stroke="#b8541f" stroke-width="2"/>
+<text x="758" y="335" font-size="24" fill="#b8541f" font-weight="bold" text-anchor="middle">AI 無意間駭了一個系統</text>
+<line x1="548" y1="326" x2="586" y2="326" stroke="#b8541f" stroke-width="3"/>
+<path d="M584 318 L596 326 L584 334 Z" fill="#b8541f"/>
+<text x="920" y="514" font-size="22" fill="#5b6170" text-anchor="end">依講者說法整理</text>
+</svg>

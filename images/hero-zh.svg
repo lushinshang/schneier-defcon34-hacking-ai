@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img">
+<title>規則裡的縫</title>
+<desc>抽象封面示意：細線組成的網格代表一套規則，網格上緣有一處很小的缺口。一個光點從左下角出發，沿著網格邊緣緩慢移動，找到缺口後穿進網格，再淡出、回到起點重來（週期約 12 秒）。靜態畫面是完整網格、光點停在起點。圖內沒有文字，不是影片畫面。</desc>
+<style>.light{animation:light 12s linear infinite}@keyframes light{0%{transform:translate(0px,0px);opacity:1}2%{transform:translate(0px,0px);opacity:1}36.7%{transform:translate(624px,0px);opacity:1}52.7%{transform:translate(624px,-288px);opacity:1}64%{transform:translate(420.0px,-288px);opacity:1}67%{transform:translate(420.0px,-288px);opacity:1}74%{transform:translate(420.0px,-216px);opacity:1}84%{transform:translate(420.0px,-187px);opacity:0}85%{transform:translate(0px,0px);opacity:0}100%{transform:translate(0px,0px);opacity:1}}.halo{animation:halo 12s ease-in-out infinite}@keyframes halo{0%,61%{opacity:0}67%{opacity:.9}76%{opacity:.5}88%,100%{opacity:0}}@media (prefers-reduced-motion: reduce){*{animation:none !important}}</style>
+<defs><radialGradient id="glow"><stop offset="0" stop-color="#b8541f" stop-opacity=".45"/><stop offset="1" stop-color="#b8541f" stop-opacity="0"/></radialGradient></defs>
+<rect width="960" height="540" fill="#fbfaf7"/>
+<rect x="264" y="174" width="48" height="48" fill="#eeeae3"/>
+<rect x="408" y="270" width="48" height="48" fill="#e6f2ec"/>
+<rect x="600" y="318" width="48" height="48" fill="#f8e6e2"/>
+<rect x="552" y="126" width="48" height="48" fill="#fbeadf"/>
+<rect x="696" y="222" width="48" height="48" fill="#eeeae3"/>
+<line x1="225.1" y1="237.4" x2="254.9" y2="237.4" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="225.1" y1="246.0" x2="254.9" y2="246.0" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="225.1" y1="254.6" x2="244.3" y2="254.6" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="321.1" y1="333.4" x2="350.9" y2="333.4" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="321.1" y1="342.0" x2="350.9" y2="342.0" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="321.1" y1="350.6" x2="340.3" y2="350.6" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="465.1" y1="189.4" x2="494.9" y2="189.4" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="465.1" y1="198.0" x2="484.3" y2="198.0" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="657.1" y1="285.4" x2="686.9" y2="285.4" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="657.1" y1="294.0" x2="686.9" y2="294.0" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="657.1" y1="302.6" x2="676.3" y2="302.6" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="369.1" y1="141.4" x2="398.9" y2="141.4" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="369.1" y1="150.0" x2="388.3" y2="150.0" stroke="#d8cfbf" stroke-width="2" stroke-linecap="round"/>
+<line x1="216" y1="126" x2="216" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="264" y1="126" x2="264" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="312" y1="126" x2="312" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="360" y1="126" x2="360" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="408" y1="126" x2="408" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="456" y1="126" x2="456" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="504" y1="126" x2="504" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="552" y1="126" x2="552" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="600" y1="126" x2="600" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="648" y1="126" x2="648" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="696" y1="126" x2="696" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="744" y1="126" x2="744" y2="414" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="168" y1="174" x2="792" y2="174" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="168" y1="222" x2="792" y2="222" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="168" y1="270" x2="792" y2="270" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="168" y1="318" x2="792" y2="318" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="168" y1="366" x2="792" y2="366" stroke="#d8cfbf" stroke-width="1.5"/>
+<line x1="168" y1="126" x2="576" y2="126" stroke="#5b6170" stroke-width="2.5" stroke-linecap="square"/>
+<line x1="600" y1="126" x2="792" y2="126" stroke="#5b6170" stroke-width="2.5" stroke-linecap="square"/>
+<line x1="792" y1="126" x2="792" y2="414" stroke="#5b6170" stroke-width="2.5" stroke-linecap="square"/>
+<line x1="792" y1="414" x2="168" y2="414" stroke="#5b6170" stroke-width="2.5" stroke-linecap="square"/>
+<line x1="168" y1="414" x2="168" y2="126" stroke="#5b6170" stroke-width="2.5" stroke-linecap="square"/>
+<line x1="576" y1="119" x2="576" y2="133" stroke="#b8541f" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="600" y1="119" x2="600" y2="133" stroke="#b8541f" stroke-width="2.5" stroke-linecap="round"/>
+<circle class="halo" cx="588.0" cy="126" r="24" fill="url(#glow)" style="opacity:0"/>
+<g class="light"><circle cx="168" cy="414" r="20" fill="url(#glow)"/><circle cx="168" cy="414" r="6" fill="#b8541f"/><circle cx="168" cy="414" r="2.5" fill="#fff6ef"/></g>
+</svg>

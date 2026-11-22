@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" font-family="PingFang TC, Noto Sans TC, Microsoft JhengHei, sans-serif">
+<title>修補的速度</title>
+<desc>本文歸納的概念示意：同一個起點「AI 找到漏洞」分成兩條線。軟體這條線：修補或轉成特徵碼，廠商發現漏洞可以直接修補。稅法這條線：要由立法機關修補，路上可能遇到更新要好幾年、漏洞根深蒂固補不掉兩個阻礙。不代表實際時間比例，不是影片畫面。</desc>
+<!-- ANIM-BEGIN --><style>path[d^="M602.1"]{animation:chk 8s ease-in-out 1 both}@keyframes chk{0%{opacity:1}6%,25%{opacity:.25}32%,100%{opacity:1}}circle[cx="612"]{transform-box:fill-box;transform-origin:center;animation:pop 8s ease-in-out 1 both}@keyframes pop{0%,24%{transform:scale(1)}29%{transform:scale(1.12)}36%,100%{transform:scale(1)}}.swdot{animation:swdot 8s ease-in-out 1 both}@keyframes swdot{0%{opacity:0;transform:translateX(0px)}4%{opacity:.9;transform:translateX(0px)}25%,100%{opacity:.9;transform:translateX(32px)}}.taxdot{animation:taxdot 8s ease-in-out 1 both}@keyframes taxdot{0%{opacity:0;transform:translateX(0px)}5%{opacity:.9;transform:translateX(0px)}60%,100%{opacity:.9;transform:translateX(54px)}}@media (prefers-reduced-motion: reduce){*{animation:none !important}}</style><!-- ANIM-END -->
+<rect width="960" height="540" fill="#fbfaf7"/>
+<text x="40" y="56" font-size="28" fill="#1d2433" font-weight="bold" text-anchor="start">修補的速度</text>
+<rect x="262" y="120" width="658" height="150" rx="14" fill="#e6f2ec" stroke="none" stroke-width="0"/>
+<rect x="262" y="300" width="658" height="190" rx="14" fill="#f8e6e2" stroke="none" stroke-width="0"/>
+<rect x="40" y="176" width="180" height="208" rx="14" fill="#1d2433" stroke="none" stroke-width="0"/>
+<text x="130" y="289" font-size="26" fill="#ffffff" font-weight="bold" text-anchor="middle">AI 找到漏洞</text>
+<line x1="220" y1="280" x2="240" y2="280" stroke="#5b6170" stroke-width="3"/>
+<line x1="240" y1="208" x2="240" y2="388" stroke="#5b6170" stroke-width="3"/>
+<line x1="240" y1="208" x2="272" y2="208" stroke="#5b6170" stroke-width="3"/>
+<path d="M270 200 L282 208 L270 216 Z" fill="#5b6170"/>
+<line x1="240" y1="388" x2="272" y2="388" stroke="#5b6170" stroke-width="3"/>
+<path d="M270 380 L282 388 L270 396 Z" fill="#5b6170"/>
+<text x="282" y="154" font-size="24" fill="#2f7d5b" font-weight="bold" text-anchor="start">軟體</text>
+<rect x="282" y="176" width="240" height="64" rx="10" fill="#ffffff" stroke="#2f7d5b" stroke-width="2.5"/>
+<text x="402" y="217" font-size="24" fill="#1d2433" font-weight="bold" text-anchor="middle">修補或轉成特徵碼</text>
+<line x1="522" y1="208" x2="576" y2="208" stroke="#2f7d5b" stroke-width="3"/>
+<path d="M574 200 L586 208 L574 216 Z" fill="#2f7d5b"/>
+<circle cx="612" cy="208" r="22" fill="#2f7d5b"/>
+<path d="M602.1 208.4 L609.8 215.9 L623.0 200.5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="646" y="216" font-size="22" fill="#5b6170" text-anchor="start">廠商發現漏洞可以直接修補</text>
+<text x="282" y="334" font-size="24" fill="#a8402f" font-weight="bold" text-anchor="start">稅法</text>
+<rect x="282" y="356" width="240" height="64" rx="10" fill="#ffffff" stroke="#a8402f" stroke-width="2.5"/>
+<text x="402" y="397" font-size="24" fill="#1d2433" font-weight="bold" text-anchor="middle">要由立法機關修補</text>
+<line x1="522" y1="388" x2="900" y2="388" stroke="#a8402f" stroke-width="3" stroke-dasharray="10 8"/>
+<rect x="596" y="362" width="10" height="52" rx="2" fill="#a8402f" stroke="none" stroke-width="0"/>
+<rect x="800" y="362" width="10" height="52" rx="2" fill="#a8402f" stroke="none" stroke-width="0"/>
+<text x="601" y="456" font-size="22" fill="#a8402f" font-weight="bold" text-anchor="middle">更新可能要好幾年</text>
+<text x="805" y="456" font-size="22" fill="#a8402f" font-weight="bold" text-anchor="middle">可能根深蒂固補不掉</text>
+<text x="920" y="522" font-size="22" fill="#5b6170" text-anchor="end">本文歸納的概念示意</text>
+<!-- ANIM-BEGIN --><circle class="swdot" cx="530" cy="208" r="7" fill="#2f7d5b" style="opacity:0"/><circle class="taxdot" cx="530" cy="388" r="7" fill="#a8402f" style="opacity:0"/><!-- ANIM-END -->
+</svg>
