@@ -125,7 +125,1651 @@ footer{max-width:720px;margin:64px auto 0;padding-top:16px;border-top:1px solid 
   section.summary-card{padding:4px 16px 8px}
 }
 </style>
-</head>
+<style data-polish>/* ==========================================================================
+   Bruce Schneier — Hacking AI (DEF CON 34) | Editorial Security Polish Layer
+   Aesthetic: Deep Graphite Field Terminal (dark) & Technical Spec Paper (light)
+   Accent: Acid Electric Cyan | Signature: Scanline Reveal + Code Gutter + Vuln .k
+   ========================================================================== */
+
+:root {
+  --font-sans: "PingFang TC", "Hiragino Sans CNS", "Noto Sans TC", "Microsoft JhengHei",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Monaco,
+    Consolas, monospace;
+
+  /* Light Mode: Clean Technical Specification Paper (all text >= 4.5:1) */
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --surface-2: #eaeff4;
+  --ink: #11161d;
+  --muted: #4b5563;
+  --line: #d4dce4;
+  --line-strong: #94a3b5;
+  --accent: #008a78;
+  --accent-ink: #006154;
+  --accent-soft: rgba(0, 138, 120, 0.085);
+  --accent-mid: rgba(0, 138, 120, 0.16);
+  --accent-glow: rgba(0, 184, 159, 0.28);
+  --note: #ebf4f2;
+  --code: #e6edf2;
+  --link: #00578a;
+  --card: #f0f6f5;
+  --card-line: #a7d4cc;
+  --gutter-ink: #6a7a8e;
+  --gutter-passed: #4f6478;
+  --grid-dot: rgba(17, 22, 29, 0.055);
+  --shadow: 0 1px 2px rgba(17, 22, 29, 0.05), 0 12px 32px rgba(17, 22, 29, 0.075);
+  --shadow-lg: 0 4px 12px rgba(17, 22, 29, 0.07), 0 20px 48px rgba(17, 22, 29, 0.12);
+  --pl-progress: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode: Deep Graphite Field Terminal (all text >= 4.5:1) */
+    --bg: #101318;
+    --surface: #171b23;
+    --surface-2: #1e2430;
+    --ink: #e7edf4;
+    --muted: #98a4b5;
+    --line: #27303d;
+    --line-strong: #3e4c60;
+    --accent: #14e8cb;
+    --accent-ink: #3bf7dd;
+    --accent-soft: rgba(20, 232, 203, 0.095);
+    --accent-mid: rgba(20, 232, 203, 0.18);
+    --accent-glow: rgba(20, 232, 203, 0.32);
+    --note: #132125;
+    --code: #1f2733;
+    --link: #6ec6ff;
+    --card: #142225;
+    --card-line: #245753;
+    --gutter-ink: #6d7f96;
+    --gutter-passed: #94a7bd;
+    --grid-dot: rgba(231, 237, 244, 0.048);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.38), 0 18px 44px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 6px 18px rgba(0, 0, 0, 0.5), 0 28px 64px rgba(0, 0, 0, 0.65);
+  }
+}
+
+/* ==========================================================================
+   Base & Micro-Textures
+   ========================================================================== */
+
+html {
+  background: var(--bg);
+  color-scheme: light dark;
+  scrollbar-color: var(--line-strong) var(--bg);
+  scrollbar-width: thin;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17.5px;
+  line-height: 1.82;
+  letter-spacing: 0.01em;
+  overflow-x: clip;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--link) 42%, transparent);
+  transition: color 160ms ease, text-decoration-color 160ms ease, background-color 160ms ease;
+}
+
+a:hover {
+  color: var(--accent-ink);
+  text-decoration-color: var(--accent);
+}
+
+a.skip {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--accent);
+  color: #091314;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: light) {
+  a.skip {
+    color: #ffffff;
+  }
+}
+
+/* ==========================================================================
+   Reading Progress Hairline (JS-driven --pl-progress)
+   ========================================================================== */
+
+.pl-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  z-index: 140;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--line) 55%, transparent);
+}
+
+.pl-progress-bar {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--pl-progress, 0));
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 70%, var(--link)) 0%,
+    var(--accent) 100%
+  );
+  box-shadow: 0 0 10px var(--accent-glow);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Top Sticky Navigation (nav.toc)
+   ========================================================================== */
+
+nav.toc {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+html.pl-scrolled nav.toc {
+  border-bottom-color: color-mix(in srgb, var(--accent) 26%, var(--line));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  html.pl-scrolled nav.toc {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.36);
+  }
+}
+
+nav.toc ul {
+  counter-reset: pl-toc;
+  max-width: 1200px;
+  min-height: 48px;
+  padding: 0 20px;
+  gap: 2px;
+}
+
+nav.toc ul li {
+  counter-increment: pl-toc;
+  margin: 0;
+}
+
+nav.toc ul li a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  min-height: 34px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+nav.toc ul li a::before {
+  content: counter(pl-toc, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--gutter-ink);
+  transition: color 160ms ease;
+}
+
+nav.toc ul li a:hover,
+nav.toc ul li a:focus-visible {
+  background: var(--surface-2);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+nav.toc ul li a:hover::before,
+nav.toc ul li a:focus-visible::before {
+  color: var(--accent-ink);
+}
+
+nav.toc ul li a.is-active,
+nav.toc ul li a[aria-current="location"] {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  font-weight: 700;
+}
+
+nav.toc ul li a.is-active::before,
+nav.toc ul li a[aria-current="location"]::before {
+  color: var(--accent-ink);
+}
+
+/* Mobile current-section subtle readout strip inside nav.toc (JS-injected) */
+.pl-toc-status {
+  display: none;
+}
+
+/* ==========================================================================
+   Page Container & Masthead (header.hero)
+   ========================================================================== */
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px 96px;
+}
+
+header.hero {
+  position: relative;
+  max-width: 760px;
+  margin: 28px auto 28px;
+  padding: 40px 36px 32px;
+  text-align: left;
+  background-color: var(--surface);
+  background-image:
+    radial-gradient(var(--grid-dot) 1px, transparent 1px),
+    linear-gradient(135deg, var(--accent-soft) 0%, transparent 48%);
+  background-size: 18px 18px, 100% 100%;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+
+/* Architectural corner registration brackets on hero */
+header.hero::before,
+header.hero::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+header.hero::before {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  border-bottom-left-radius: 5px;
+}
+
+header.hero::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  border-bottom-right-radius: 5px;
+}
+
+header.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 4px 11px 4px 9px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  border-radius: 4px;
+}
+
+header.hero .eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 1.5px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+header.hero h1 {
+  margin: 0 0 20px;
+  max-width: none;
+  font-size: clamp(1.72rem, 1.15rem + 2.35vw, 2.95rem);
+  font-weight: 800;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+header.hero p.lede {
+  margin: 0 0 16px;
+  max-width: 680px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  opacity: 0.88;
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+header.hero .byline {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+/* Subtle hero entrance when JS + motion allowed (never traps at opacity 0) */
+@media (prefers-reduced-motion: no-preference) {
+  html.pl-anim header.hero {
+    animation: pl-hero-in 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  html.pl-anim header.hero .eyebrow::before {
+    animation: pl-beacon 3.2s ease-in-out infinite;
+  }
+}
+
+@keyframes pl-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pl-beacon {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+/* ==========================================================================
+   Article Column & Signature Left Code Line-Number Gutter (CSS Counter)
+   ========================================================================== */
+
+article {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  counter-reset: pl-sec 0 pl-line 0;
+}
+
+/* Continuous hairline vertical rail separating code gutter from prose */
+article::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -18px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--line) 3%,
+    var(--line) 97%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Blocks that participate in the sequential code line-number gutter */
+article > h2[id^="sec-"],
+article > h3,
+article > p,
+article > ul,
+article > ol,
+article > aside.note {
+  position: relative;
+  counter-increment: pl-line;
+}
+
+article > h2[id^="sec-"] {
+  counter-increment: pl-line pl-sec;
+}
+
+article > h2[id^="sec-"]::before,
+article > h3::before,
+article > p::before,
+article > ul::before,
+article > ol::before,
+article > aside.note::before {
+  content: counter(pl-line, decimal-leading-zero);
+  position: absolute;
+  left: -64px;
+  top: 0.34em;
+  width: 46px;
+  padding-right: 11px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--gutter-ink);
+  border-right: 2px solid transparent;
+  pointer-events: none;
+  user-select: none;
+  transition: color 240ms ease, border-color 240ms ease, text-shadow 240ms ease;
+}
+
+article > h2[id^="sec-"]::before {
+  top: auto;
+  bottom: 0.35em;
+  font-weight: 700;
+}
+
+article > aside.note::before {
+  top: 18px;
+}
+
+/* Scroll-synced gutter states driven by polish.js */
+article > [data-pl-line="passed"]::before {
+  color: var(--gutter-passed);
+  border-right-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+article > [data-pl-line="active"]::before {
+  color: var(--accent-ink);
+  font-weight: 700;
+  border-right-color: var(--accent);
+  border-right-width: 3px;
+  text-shadow: 0 0 12px var(--accent-glow), 0 0 3px var(--accent-glow);
+}
+
+article > p {
+  margin: 0 0 1.32em;
+}
+
+article > ul,
+article > ol {
+  margin: 0 0 1.45em;
+  padding-left: 1.45em;
+}
+
+article > ul li,
+article > ol li {
+  margin: 0.55em 0;
+}
+
+article > ul li::marker {
+  color: var(--accent);
+}
+
+article > ol li::marker {
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Signature Second Memory Point: "Rules & Loopholes" h2 Scanline Reveal
+   ========================================================================== */
+
+article > h2[id^="sec-"] {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4.4rem 0 1.45rem;
+  padding: 22px 0 14px;
+  border-left: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  font-size: clamp(1.42rem, 1.15rem + 0.95vw, 1.88rem);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  scroll-margin-top: 68px;
+  text-wrap: balance;
+  background-image: linear-gradient(90deg, var(--accent) 0 42px, transparent 42px);
+  background-repeat: no-repeat;
+  background-size: 100% 2.5px;
+  background-position: left top;
+}
+
+/* Big monospace chapter ordinal above h2 title (pure CSS counter) */
+article > h2[id^="sec-"]::after {
+  content: counter(pl-sec, decimal-leading-zero);
+  order: -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: clamp(1.65rem, 1.3rem + 1.1vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: var(--accent-ink);
+  opacity: 0.88;
+  transition: opacity 320ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Scanline sweep veil injected by JS (only active when motion allowed) */
+.pl-scan-veil {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.pl-anim article > h2[id^="sec-"] .pl-scan-veil {
+    display: block;
+    position: absolute;
+    inset: 2px 0 1px 0;
+    z-index: 4;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    box-shadow: -14px 0 32px var(--accent-glow), -3px 0 8px var(--accent);
+    transform-origin: right center;
+    transform: scaleX(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  html.pl-anim article > h2[id^="sec-"][data-pl-reveal="pending"] .pl-scan-veil {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  html.pl-anim article > h2[id^="sec-"][data-pl-reveal="pending"]::after {
+    opacity: 0.15;
+    transform: translateX(-8px);
+  }
+
+  html.pl-anim article > h2[id^="sec-"][data-pl-reveal="sweeping"] .pl-scan-veil {
+    animation: pl-scan-sweep 1150ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  html.pl-anim article > h2[id^="sec-"][data-pl-reveal="done"] .pl-scan-veil {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes pl-scan-sweep {
+  0% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+article > h3 {
+  margin: 2.4rem 0 0.75rem;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Timestamp Links (Forensic Timecode Capsules)
+   ========================================================================== */
+
+a[href*="youtube.com/watch"][href*="&t="] {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.08em 0.52em 0.08em 0.44em;
+  margin: 0 1px;
+  vertical-align: 0.05em;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--accent) 44%, var(--line));
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.76em;
+  font-weight: 700;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease,
+    box-shadow 160ms ease, transform 160ms ease;
+}
+
+a[href*="youtube.com/watch"][href*="&t="]::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  border-left: 5.5px solid var(--accent);
+  transition: border-left-color 160ms ease, transform 160ms ease;
+}
+
+a[href*="youtube.com/watch"][href*="&t="]:hover,
+a[href*="youtube.com/watch"][href*="&t="]:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #061312;
+  box-shadow: 0 2px 10px var(--accent-glow);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+a[href*="youtube.com/watch"][href*="&t="]:hover::before,
+a[href*="youtube.com/watch"][href*="&t="]:focus-visible::before {
+  border-left-color: #061312;
+  transform: translateX(1px);
+}
+
+@media (prefers-color-scheme: light) {
+  a[href*="youtube.com/watch"][href*="&t="]:hover,
+  a[href*="youtube.com/watch"][href*="&t="]:focus-visible {
+    color: #ffffff;
+  }
+
+  a[href*="youtube.com/watch"][href*="&t="]:hover::before,
+  a[href*="youtube.com/watch"][href*="&t="]:focus-visible::before {
+    border-left-color: #ffffff;
+  }
+}
+
+/* ==========================================================================
+   Pull Quote Cards (Direct Speaker Quotes in strong + timestamp)
+   ========================================================================== */
+
+article p > strong.pl-quote,
+article p > strong:has(> a[href*="youtube.com/watch"][href*="&t="]) {
+  position: relative;
+  display: block;
+  margin: 1.35em 0;
+  padding: 1.15em 1.35em 1.15em 1.5em;
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(135deg, var(--accent-soft) 0%, transparent 56%),
+    linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 100% 100%, 10px 1.5px, 1.5px 10px;
+  background-position: 0 0, right 10px bottom 10px, right 10px bottom 10px;
+  border: 1px solid var(--line);
+  border-left: 3.5px solid var(--accent);
+  border-radius: 3px 8px 8px 3px;
+  box-shadow: var(--shadow);
+  font-size: 1.09em;
+  font-weight: 600;
+  line-height: 1.68;
+  color: var(--ink);
+  letter-spacing: 0.005em;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+article p > strong.pl-quote:hover,
+article p > strong:has(> a[href*="youtube.com/watch"][href*="&t="]):hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================================
+   Figures, Exhibit Plates & Lightbox
+   (NEVER override transform on article figure.section-figure!)
+   ========================================================================== */
+
+figure.hero-figure,
+article figure.section-figure {
+  position: relative;
+  z-index: 2;
+}
+
+figure.hero-figure {
+  max-width: 820px;
+  margin: 0 auto 32px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+article figure.section-figure {
+  margin-top: 38px;
+  margin-bottom: 38px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+figure.hero-figure img,
+article figure.section-figure img {
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  box-shadow: none;
+  transition: filter 220ms ease, border-color 220ms ease, box-shadow 220ms ease,
+    opacity 480ms ease, transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  figure.hero-figure img,
+  article figure.section-figure img {
+    filter: brightness(0.92) contrast(1.03);
+  }
+
+  figure.hero-figure img:hover,
+  figure.hero-figure img:focus-visible,
+  article figure.section-figure img:hover,
+  article figure.section-figure img:focus-visible {
+    filter: brightness(1) contrast(1);
+  }
+}
+
+figure.hero-figure img:hover,
+figure.hero-figure img:focus-visible,
+article figure.section-figure img:hover,
+article figure.section-figure img:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.pl-anim figure.section-figure[data-pl-fig="pending"] img {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  html.pl-anim figure.section-figure[data-pl-fig="shown"] img {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+figure figcaption {
+  position: relative;
+  margin: 12px auto 2px;
+  padding: 10px 8px 0 18px;
+  max-width: 780px;
+  border-top: 1px dashed var(--line);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: left;
+}
+
+figure figcaption::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 17px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+/* Enhanced Lightbox */
+.lightbox {
+  background: rgba(10, 13, 18, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.lightbox img {
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.72);
+}
+
+.lightbox button {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  background: #171b23;
+  color: #e7edf4;
+  border: 1px solid #3e4c60;
+  border-radius: 6px;
+  padding: 8px 16px;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.lightbox button:hover,
+.lightbox button:focus-visible {
+  background: #14e8cb;
+  border-color: #14e8cb;
+  color: #061312;
+}
+
+/* ==========================================================================
+   Technical Callout Notes (aside.note)
+   ========================================================================== */
+
+aside.note {
+  position: relative;
+  margin: 1.6em 0 1.9em;
+  padding: 16px 20px 14px 20px;
+  background: var(--note);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-left: 3.5px solid var(--accent);
+  border-radius: 4px 8px 8px 4px;
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--ink);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+aside.note p:last-child,
+aside.note ul:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Specification-Sheet Tables (.table-scroll) + Flagged Vulnerability (.k)
+   ========================================================================== */
+
+.table-scroll {
+  position: relative;
+  z-index: 2;
+  margin: 1.7em 0 2em;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-top: 2.5px solid var(--accent);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+
+.table-scroll table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+.table-scroll thead th {
+  padding: 11px 16px;
+  background: var(--surface-2);
+  border-bottom: 1.5px solid var(--line-strong);
+  border-right: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-align: left;
+}
+
+.table-scroll thead th:last-child {
+  border-right: 0;
+}
+
+.table-scroll tbody tr {
+  transition: background-color 160ms ease;
+}
+
+.table-scroll tbody tr:hover,
+.table-scroll tbody tr:focus-within {
+  background: var(--accent-soft);
+}
+
+.table-scroll tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  vertical-align: top;
+}
+
+.table-scroll tbody td:last-child {
+  border-right: 0;
+}
+
+.table-scroll tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Signature Flagged-Vulnerability Keyword Markup (.k & td.k) */
+.k {
+  position: relative;
+  color: var(--accent-ink);
+  font-weight: 700;
+  background-color: var(--accent-soft);
+  background-image:
+    linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 7px 1.5px, 1.5px 7px, 7px 1.5px, 1.5px 7px;
+  background-position: left 4px top 4px, left 4px top 4px, right 4px bottom 4px, right 4px bottom 4px;
+  box-shadow: inset 3px 0 0 var(--accent);
+  transition: background-color 170ms ease, color 170ms ease, box-shadow 170ms ease;
+}
+
+.k:not(td):not(th) {
+  padding: 0.08em 0.45em 0.08em 0.55em;
+  border-radius: 3px;
+}
+
+.table-scroll tbody td.k {
+  padding: 13px 16px 13px 18px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  color: var(--accent-ink);
+  white-space: nowrap;
+  cursor: default;
+}
+
+.k:hover,
+.k:focus-visible,
+.table-scroll tbody td.k:hover,
+.table-scroll tbody td.k:focus-visible {
+  background-color: var(--accent-mid);
+  box-shadow:
+    inset 3.5px 0 0 var(--accent),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Section-Specific Editorial Elevations (#sec-8, #sec-9, #sec-10, #sec-11)
+   ========================================================================== */
+
+/* #sec-8 Public Data Cross-Check Audit Cards */
+#sec-8 + ul {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 14px;
+}
+
+#sec-8 + ul li {
+  margin: 0;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line-strong);
+  border-radius: 6px;
+  font-size: 15.5px;
+  line-height: 1.72;
+  transition: border-left-color 180ms ease, box-shadow 180ms ease;
+}
+
+#sec-8 + ul li:hover {
+  border-left-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+/* #sec-9 Key Conclusion Executive Card + .takeaways */
+#sec-9 + p {
+  padding: 22px 24px;
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  font-size: 1.04em;
+  line-height: 1.82;
+}
+
+ol.takeaways {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: pl-tk;
+  display: grid;
+  gap: 12px;
+}
+
+ol.takeaways li {
+  counter-increment: pl-tk;
+  position: relative;
+  margin: 0;
+  padding: 14px 18px 14px 48px;
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 6px;
+}
+
+ol.takeaways li::before {
+  content: counter(pl-tk, decimal-leading-zero);
+  position: absolute;
+  left: 16px;
+  top: 15px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+
+/* #sec-10 Technical Colophon Tone */
+#sec-10 ~ p {
+  font-size: 15.2px;
+  line-height: 1.76;
+  color: var(--muted);
+}
+
+/* #sec-11 Forensic Sources Index */
+ul.sources {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: pl-src;
+  border-top: 1px solid var(--line);
+}
+
+ul.sources li {
+  counter-increment: pl-src;
+  position: relative;
+  margin: 0;
+  padding: 11px 8px 11px 42px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  font-size: 14px;
+  line-height: 1.62;
+  color: var(--muted);
+  transition: background-color 160ms ease;
+}
+
+ul.sources li::before {
+  content: counter(pl-src, decimal-leading-zero);
+  position: absolute;
+  left: 6px;
+  top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+}
+
+ul.sources li:hover {
+  background: var(--accent-soft);
+}
+
+footer {
+  max-width: 700px;
+  margin: 64px auto 0;
+  padding: 20px 0 0;
+  border-top: 2px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Desktop Side Chapter Navigation Rail (JS-generated from h2)
+   Visible >= 1340px so it never overlaps 860px wide section figures
+   ========================================================================== */
+
+.pl-sidenav {
+  display: none;
+}
+
+@media (min-width: 1340px) {
+  .pl-sidenav {
+    display: block;
+    position: fixed;
+    top: 76px;
+    right: 18px;
+    width: 212px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    z-index: 60;
+    padding: 12px 10px;
+    background: color-mix(in srgb, var(--surface) 84%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    scrollbar-width: thin;
+    transition: opacity 220ms ease, border-color 220ms ease;
+  }
+
+  .pl-sidenav:hover,
+  .pl-sidenav:focus-within {
+    border-color: var(--line-strong);
+  }
+
+  .pl-sidenav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: pl-side;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pl-sidenav-item {
+    counter-increment: pl-side;
+    margin: 0;
+  }
+
+  .pl-sidenav-link {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    align-items: baseline;
+    gap: 6px;
+    padding: 6px 8px;
+    border-left: 2px solid transparent;
+    border-radius: 0 4px 4px 0;
+    font-size: 12.2px;
+    line-height: 1.42;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .pl-sidenav-link::before {
+    content: counter(pl-side, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-variant-numeric: tabular-nums;
+    color: var(--gutter-ink);
+  }
+
+  .pl-sidenav-link:hover,
+  .pl-sidenav-link:focus-visible {
+    color: var(--ink);
+    background: var(--surface-2);
+    border-left-color: var(--line-strong);
+  }
+
+  .pl-sidenav-link.is-active,
+  .pl-sidenav-link[aria-current="location"] {
+    color: var(--accent-ink);
+    font-weight: 700;
+    background: var(--accent-soft);
+    border-left-color: var(--accent);
+  }
+
+  .pl-sidenav-link.is-active::before,
+  .pl-sidenav-link[aria-current="location"]::before {
+    color: var(--accent-ink);
+  }
+}
+
+@media (min-width: 1420px) {
+  .pl-sidenav {
+    right: 24px;
+    width: 234px;
+  }
+}
+
+/* Floating Back-to-Top Control (pure CSS chevron, aria-label from h1) */
+.pl-top-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 20px;
+  z-index: 80;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 200ms ease, visibility 200ms ease, transform 200ms ease,
+    border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+.pl-top-btn::before {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin-top: 3px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.pl-top-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.pl-top-btn:hover,
+.pl-top-btn:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--surface);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+/* ==========================================================================
+   Tablet & Mobile Breakpoints (390px: zero horizontal overflow, clean first screen)
+   ========================================================================== */
+
+@media (max-width: 919px) {
+  /* Move code line-number gutter neatly inside left edge of article blocks */
+  article::before {
+    left: 25px;
+  }
+
+  article > h2[id^="sec-"],
+  article > h3,
+  article > p {
+    padding-left: 36px;
+  }
+
+  article > ul,
+  article > ol {
+    padding-left: calc(36px + 1.25em);
+  }
+
+  article > #sec-8 + ul,
+  article > ul.sources,
+  article > ol.takeaways {
+    padding-left: 36px;
+  }
+
+  article > aside.note {
+    margin-left: 36px;
+  }
+
+  article > h2[id^="sec-"]::before,
+  article > h3::before,
+  article > p::before,
+  article > ul::before,
+  article > ol::before {
+    left: 0;
+    width: 24px;
+    padding-right: 5px;
+    font-size: 10.5px;
+  }
+
+  article > aside.note::before {
+    left: -36px;
+    width: 24px;
+    padding-right: 5px;
+    font-size: 10.5px;
+  }
+
+  html.pl-anim article > h2[id^="sec-"] .pl-scan-veil {
+    left: 36px;
+  }
+
+  #sec-9 + p {
+    margin-left: 36px;
+    padding: 16px 16px;
+  }
+
+  #sec-9 + p::before {
+    left: -36px;
+    top: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+    line-height: 1.76;
+  }
+
+  nav.toc ul {
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 2px;
+  }
+
+  nav.toc ul li a {
+    padding: 5px 9px;
+    min-height: 32px;
+    font-size: 12.5px;
+  }
+
+  .page {
+    padding: 0 14px 68px;
+  }
+
+  /* Compact masthead so 390px first screen shows title AND hero SVG */
+  header.hero {
+    margin: 12px auto 14px;
+    padding: 18px 16px 14px;
+  }
+
+  header.hero .eyebrow {
+    margin-bottom: 10px;
+    padding: 3px 9px 3px 8px;
+    font-size: 11px;
+  }
+
+  header.hero h1 {
+    margin-bottom: 10px;
+    font-size: 1.44rem;
+    line-height: 1.26;
+  }
+
+  header.hero p.lede {
+    margin-bottom: 8px;
+    padding-top: 9px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  header.hero .byline {
+    font-size: 11.5px;
+  }
+
+  figure.hero-figure {
+    margin: 0 auto 22px;
+    padding: 8px;
+  }
+
+  figure.hero-figure picture img {
+    max-width: 268px;
+    margin: 0 auto;
+  }
+
+  article figure.section-figure {
+    margin-top: 26px;
+    margin-bottom: 26px;
+    padding: 8px;
+  }
+
+  figure figcaption {
+    margin-top: 8px;
+    padding-top: 8px;
+    font-size: 12.5px;
+  }
+
+  article > h2[id^="sec-"] {
+    margin: 2.9rem 0 1.15rem;
+    padding: 16px 0 10px 36px;
+    font-size: 1.32rem;
+    border-top: 1px solid var(--line);
+  }
+
+  article > h2[id^="sec-"]::after {
+    font-size: 1.45rem;
+  }
+
+  article p > strong.pl-quote,
+  article p > strong:has(> a[href*="youtube.com/watch"][href*="&t="]) {
+    padding: 0.95em 1.05em 0.95em 1.15em;
+    font-size: 1.02em;
+  }
+
+  /* Responsive Specification Cards on Mobile (zero horizontal overflow) */
+  .table-scroll {
+    overflow-x: visible;
+    border-radius: 6px;
+  }
+
+  .table-scroll tbody tr {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .table-scroll tbody td {
+    padding: 4px 0;
+    border: 0;
+  }
+
+  .table-scroll tbody td.k {
+    margin-bottom: 4px;
+    padding: 6px 10px 6px 12px;
+    border-radius: 4px;
+    white-space: normal;
+  }
+
+  .table-scroll tbody td::before {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+
+  ul.sources li {
+    padding: 10px 4px 10px 32px;
+    font-size: 13px;
+  }
+
+  ul.sources li::before {
+    left: 2px;
+  }
+
+  .pl-top-btn {
+    right: 6px;
+    bottom: 10px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .pl-top-btn.is-visible {
+    opacity: 0.6;
+  }
+
+  .pl-top-btn.is-visible:hover,
+  .pl-top-btn.is-visible:focus-visible {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion: Strictly Static, Immediate Full Visibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pl-scan-veil {
+    display: none !important;
+  }
+
+  html.pl-anim header.hero,
+  html.pl-anim header.hero .eyebrow::before,
+  html.pl-anim article > h2[id^="sec-"]::after,
+  html.pl-anim figure.section-figure img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .pl-progress-bar,
+  .pl-top-btn,
+  a[href*="youtube.com/watch"][href*="&t="],
+  article > [data-pl-line]::before {
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   Clean Print Stylesheet
+   ========================================================================== */
+
+@media print {
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f4f6f8;
+    --ink: #111111;
+    --muted: #444444;
+    --line: #cccccc;
+    --line-strong: #888888;
+    --accent: #005c50;
+    --accent-ink: #00463d;
+    --accent-soft: #eef5f4;
+    --note: #f4f6f7;
+    --card: #f7f9f9;
+    --card-line: #bbbbbb;
+    --link: #111111;
+    --shadow: none;
+    --shadow-lg: none;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt;
+    line-height: 1.65;
+  }
+
+  nav.toc,
+  .pl-progress,
+  .pl-sidenav,
+  .pl-top-btn,
+  .pl-scan-veil,
+  .lightbox,
+  a.skip,
+  article::before,
+  article > *::before {
+    display: none !important;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  header.hero {
+    margin: 0 0 18pt;
+    padding: 14pt 16pt;
+    background: #ffffff !important;
+    border: 1pt solid #999999;
+    border-top: 2.5pt solid #111111;
+    box-shadow: none;
+  }
+
+  article {
+    max-width: none;
+  }
+
+  article > h2[id^="sec-"],
+  article > h3,
+  article > p,
+  article > ul,
+  article > ol,
+  article > aside.note,
+  #sec-9 + p {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  article > h2[id^="sec-"] {
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 22pt;
+    padding-top: 10pt !important;
+  }
+
+  figure,
+  .table-scroll,
+  aside.note,
+  #sec-9 + p,
+  article p > strong.pl-quote,
+  article p > strong:has(> a[href*="youtube.com/watch"][href*="&t="]) {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
+
+  article figure.section-figure {
+    margin-left: 0 !important;
+    transform: none !important;
+    width: auto !important;
+  }
+
+  html.pl-anim figure.section-figure[data-pl-fig] img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  html.pl-anim article > h2[id^="sec-"]::after {
+    opacity: 0.88 !important;
+    transform: none !important;
+  }
+
+  figure.section-figure img {
+    filter: none !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto;
+  }
+
+  a[href*="youtube.com/watch"][href*="&t="] {
+    border: 0.75pt solid #666666;
+    background: #f2f4f5;
+    color: #111111;
+  }
+}
+</style></head>
 <body>
 <a class="skip" href="#main">跳到正文</a>
 <nav class="toc" aria-label="章節導覽"><ul><li><a href="#sec-1" title="任何一套規則都能被駭">規則可駭</a></li><li><a href="#sec-2" title="精靈問題：目標永遠講不完整">精靈問題</a></li><li><a href="#sec-3" title="精靈已經上線">精靈上線</a></li><li><a href="#sec-4" title="速度、規模、範圍、精密度">速度規模</a></li><li><a href="#sec-5" title="修補的速度：軟體能自己修，法律修不動">修補速度</a></li><li><a href="#sec-6" title="信任：朋友還是工具">信任</a></li><li><a href="#sec-7" title="不只是技術問題">不只技術</a></li><li><a href="#sec-8" title="對照公開資料">對照資料</a></li><li><a href="#sec-9" title="重點結論與實際啟示">結論</a></li><li><a href="#sec-10" title="製作說明：這篇導讀由 AI 模型完成">製作說明</a></li><li><a href="#sec-11" title="來源清單">來源</a></li></ul></nav>
@@ -232,5 +1876,331 @@ footer{max-width:720px;margin:64px auto 0;padding-top:16px;border-top:1px solid 
   });
 })();
 </script>
-</body>
+<script data-polish>/* ==========================================================================
+   Bruce Schneier — Hacking AI (DEF CON 34) | Interactive Polish Layer
+   Strict compliance: DOM-only creation, zero external requests, zero new text.
+   All injected nodes carry data-polish="1" and proper ARIA attributes.
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  function init() {
+    var root = document.documentElement;
+    var article = document.querySelector('main article');
+    var headings = Array.prototype.slice.call(
+      document.querySelectorAll('article > h2[id^="sec-"]')
+    );
+    var tocNav = document.querySelector('nav.toc');
+    var tocList = tocNav ? tocNav.querySelector('ul') : null;
+    var tocLinks = tocNav
+      ? Array.prototype.slice.call(tocNav.querySelectorAll('a[href^="#sec-"]'))
+      : [];
+    var mqlReduce = window.matchMedia
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+
+    function prefersReducedMotion() {
+      return Boolean(mqlReduce && mqlReduce.matches);
+    }
+
+    function syncMotionClass() {
+      if (prefersReducedMotion()) {
+        root.classList.remove('pl-anim');
+        headings.forEach(function (h2) {
+          h2.setAttribute('data-pl-reveal', 'done');
+        });
+        document.querySelectorAll('figure.section-figure').forEach(function (fig) {
+          fig.setAttribute('data-pl-fig', 'shown');
+        });
+      } else {
+        root.classList.add('pl-anim');
+      }
+    }
+
+    syncMotionClass();
+    if (mqlReduce && mqlReduce.addEventListener) {
+      mqlReduce.addEventListener('change', syncMotionClass);
+    }
+
+    /* 1. Top Reading Progress Hairline */
+    var progressWrap = document.createElement('div');
+    progressWrap.className = 'pl-progress';
+    progressWrap.setAttribute('data-polish', '1');
+    progressWrap.setAttribute('aria-hidden', 'true');
+    var progressBar = document.createElement('div');
+    progressBar.className = 'pl-progress-bar';
+    progressBar.setAttribute('data-polish', '1');
+    progressWrap.appendChild(progressBar);
+    document.body.insertBefore(progressWrap, document.body.firstChild);
+
+    /* 2. Tag Pull Quote Strong Elements (quotes with YouTube timestamps) */
+    if (article) {
+      var strongs = article.querySelectorAll('p > strong');
+      strongs.forEach(function (el) {
+        var hasTs = el.querySelector('a[href*="youtube.com/watch"][href*="&t="]');
+        var txt = (el.textContent || '').trim();
+        if (hasTs && txt.charAt(0) === '\u300c') {
+          el.classList.add('pl-quote');
+        }
+      });
+    }
+
+    /* 3. Scanline Reveal Veil on h2 Chapter Headings (no text added) */
+    var viewportH = window.innerHeight || 800;
+    headings.forEach(function (h2) {
+      var veil = document.createElement('span');
+      veil.className = 'pl-scan-veil';
+      veil.setAttribute('data-polish', '1');
+      veil.setAttribute('aria-hidden', 'true');
+      h2.appendChild(veil);
+
+      if (prefersReducedMotion()) {
+        h2.setAttribute('data-pl-reveal', 'done');
+      } else {
+        var rect = h2.getBoundingClientRect();
+        if (rect.top < viewportH * 0.92) {
+          h2.setAttribute('data-pl-reveal', 'done');
+        } else {
+          h2.setAttribute('data-pl-reveal', 'pending');
+        }
+      }
+    });
+
+    /* Subtle Reveal on Section Figures (img only, never touching figure transform) */
+    var sectionFigs = Array.prototype.slice.call(
+      document.querySelectorAll('figure.section-figure')
+    );
+    sectionFigs.forEach(function (fig) {
+      if (prefersReducedMotion()) {
+        fig.setAttribute('data-pl-fig', 'shown');
+      } else {
+        var rect = fig.getBoundingClientRect();
+        fig.setAttribute('data-pl-fig', rect.top < viewportH * 0.95 ? 'shown' : 'pending');
+      }
+    });
+
+    if ('IntersectionObserver' in window && !prefersReducedMotion()) {
+      var revealObs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var target = entry.target;
+            if (target.tagName === 'H2') {
+              if (target.getAttribute('data-pl-reveal') === 'pending') {
+                target.setAttribute('data-pl-reveal', 'sweeping');
+                window.setTimeout(function () {
+                  target.setAttribute('data-pl-reveal', 'done');
+                }, 1200);
+              }
+              revealObs.unobserve(target);
+            } else if (target.tagName === 'FIGURE') {
+              target.setAttribute('data-pl-fig', 'shown');
+              revealObs.unobserve(target);
+            }
+          });
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+      );
+
+      headings.forEach(function (h2) {
+        if (h2.getAttribute('data-pl-reveal') === 'pending') {
+          revealObs.observe(h2);
+        }
+      });
+      sectionFigs.forEach(function (fig) {
+        if (fig.getAttribute('data-pl-fig') === 'pending') {
+          revealObs.observe(fig);
+        }
+      });
+    } else {
+      headings.forEach(function (h2) {
+        h2.setAttribute('data-pl-reveal', 'done');
+      });
+      sectionFigs.forEach(function (fig) {
+        fig.setAttribute('data-pl-fig', 'shown');
+      });
+    }
+
+    /* 4. Desktop Side Chapter Navigation (generated strictly from page h2s) */
+    var sideLinks = [];
+    if (headings.length > 0) {
+      var sideNav = document.createElement('nav');
+      sideNav.className = 'pl-sidenav';
+      sideNav.setAttribute('data-polish', '1');
+      sideNav.setAttribute(
+        'aria-label',
+        (tocNav && tocNav.getAttribute('aria-label')) || headings[0].textContent
+      );
+
+      var sideUl = document.createElement('ul');
+      sideUl.className = 'pl-sidenav-list';
+      sideUl.setAttribute('data-polish', '1');
+
+      headings.forEach(function (h2) {
+        var li = document.createElement('li');
+        li.className = 'pl-sidenav-item';
+        li.setAttribute('data-polish', '1');
+
+        var a = document.createElement('a');
+        a.className = 'pl-sidenav-link';
+        a.setAttribute('data-polish', '1');
+        a.setAttribute('href', '#' + h2.id);
+        a.textContent = h2.textContent;
+
+        a.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          var targetEl = document.getElementById(h2.id);
+          if (targetEl) {
+            targetEl.scrollIntoView({
+              behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+              block: 'start'
+            });
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', '#' + h2.id);
+            }
+          }
+        });
+
+        li.appendChild(a);
+        sideUl.appendChild(li);
+        sideLinks.push(a);
+      });
+
+      sideNav.appendChild(sideUl);
+      document.body.appendChild(sideNav);
+    }
+
+    /* 5. Back-to-Top Button (pure CSS chevron, aria-label from existing h1) */
+    var h1 = document.querySelector('header.hero h1');
+    var topBtn = document.createElement('button');
+    topBtn.type = 'button';
+    topBtn.className = 'pl-top-btn';
+    topBtn.setAttribute('data-polish', '1');
+    if (h1 && h1.textContent) {
+      topBtn.setAttribute('aria-label', h1.textContent);
+    }
+
+    topBtn.addEventListener('click', function () {
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+      });
+    });
+    document.body.appendChild(topBtn);
+
+    /* 6. Code Line-Number Gutter Illumination & Active Chapter Sync */
+    var gutterBlocks = article
+      ? Array.prototype.slice.call(
+          article.querySelectorAll(
+            ':scope > h2[id^="sec-"], :scope > h3, :scope > p, :scope > ul, :scope > ol, :scope > aside.note'
+          )
+        )
+      : [];
+
+    var activeSecId = '';
+    var ticking = false;
+
+    function setActiveSection(secId) {
+      if (secId === activeSecId) return;
+      activeSecId = secId;
+
+      tocLinks.forEach(function (a) {
+        var match = a.getAttribute('href') === '#' + secId;
+        a.classList.toggle('is-active', match);
+        if (match) {
+          a.setAttribute('aria-current', 'location');
+          if (tocList && tocList.scrollWidth > tocList.clientWidth) {
+            var targetLeft =
+              a.offsetLeft - tocList.clientWidth / 2 + a.offsetWidth / 2;
+            tocList.scrollTo({
+              left: Math.max(0, targetLeft),
+              behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+            });
+          }
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+
+      sideLinks.forEach(function (a) {
+        var match = a.getAttribute('href') === '#' + secId;
+        a.classList.toggle('is-active', match);
+        if (match) {
+          a.setAttribute('aria-current', 'location');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    function updateOnScroll() {
+      ticking = false;
+      if (window.innerWidth < 200 || window.innerHeight < 200) return;
+      var scrollY = window.scrollY || window.pageYOffset || 0;
+      var docEl = document.documentElement;
+      var maxScroll = Math.max(1, docEl.scrollHeight - window.innerHeight);
+      var ratio = Math.min(1, Math.max(0, scrollY / maxScroll));
+
+      root.style.setProperty('--pl-progress', ratio.toFixed(4));
+      root.classList.toggle('pl-scrolled', scrollY > 18);
+      topBtn.classList.toggle('is-visible', scrollY > 480);
+
+      /* Active chapter lookup (last heading above 30% of viewport) */
+      var threshold = Math.max(100, window.innerHeight * 0.28);
+      var currentId = headings.length > 0 ? headings[0].id : '';
+      for (var i = 0; i < headings.length; i++) {
+        if (headings[i].getBoundingClientRect().top <= threshold) {
+          currentId = headings[i].id;
+        } else {
+          break;
+        }
+      }
+      if (scrollY + window.innerHeight >= docEl.scrollHeight - 24 && headings.length > 0) {
+        currentId = headings[headings.length - 1].id;
+      }
+      if (currentId) {
+        setActiveSection(currentId);
+      }
+
+      /* Code line-number gutter sequential illumination */
+      if (gutterBlocks.length > 0) {
+        var focusY = window.innerHeight * 0.36;
+        var activeIdx = -1;
+        for (var j = 0; j < gutterBlocks.length; j++) {
+          var rect = gutterBlocks[j].getBoundingClientRect();
+          if (rect.top <= focusY) {
+            activeIdx = j;
+          } else {
+            break;
+          }
+        }
+        for (var k = 0; k < gutterBlocks.length; k++) {
+          var state = k < activeIdx ? 'passed' : k === activeIdx ? 'active' : 'upcoming';
+          if (gutterBlocks[k].getAttribute('data-pl-line') !== state) {
+            gutterBlocks[k].setAttribute('data-pl-line', state);
+          }
+        }
+      }
+    }
+
+    function requestUpdate() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateOnScroll);
+      }
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate, { passive: true });
+    updateOnScroll();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script></body>
 </html>
